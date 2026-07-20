@@ -108,6 +108,16 @@ delivery is skipped. Resume alerts by removing it:
 rm data/STOP
 ```
 
+## Dashboard (mock — Phase 0)
+
+Read-only UI preview with fake data (no FastAPI yet):
+
+```bash
+.venv/bin/python -m http.server 8765 --directory dashboard
+```
+
+Open http://127.0.0.1:8765/ — contract: `dashboard/mock/overview.json`.
+
 ## Tests
 
 ```bash

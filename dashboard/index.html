@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>crypto-meme-bot dashboard (mock)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div>
+        <h1 class="brand">crypto-meme-bot</h1>
+        <p class="meta">Read-only overview · mock data</p>
+      </div>
+      <div class="badges" id="badges" aria-live="polite"></div>
+    </header>
+
+    <section class="section" aria-labelledby="snapshot-title">
+      <h2 id="snapshot-title">Snapshot</h2>
+      <div class="stats" id="stats"></div>
+      <h2>Hot keys</h2>
+      <ul class="hot-list" id="hot-keys"></ul>
+    </section>
+
+    <section class="section" aria-labelledby="alerts-title">
+      <h2 id="alerts-title">Recent alerts</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Key</th>
+              <th>Summary</th>
+            </tr>
+          </thead>
+          <tbody id="alerts-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="channels-title">
+      <h2 id="channels-title">Channels</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Status</th>
+              <th>Score</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody id="channels-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function fmtRatio(value) {
+      return (Number(value) * 100).toFixed(0) + "%";
+    }
+
+    function fmtTime(iso) {
+      try {
+        return new Date(iso).toLocaleString();
+      } catch {
+        return iso;
+      }
+    }
+
+    function truncateKey(key) {
+      if (!key) return "";
+      return key.length > 28 ? key.slice(0, 12) + "…" + key.slice(-8) : key;
+    }
+
+    function badge(label, cls) {
+      const span = document.createElement("span");
+      span.className = "badge " + cls;
+      span.textContent = label;
+      return span;
+    }
+
+    function render(data) {
+      const badges = document.getElementById("badges");
+      badges.replaceChildren(
+        badge(data.stop_active ? "STOP on" : "STOP off", data.stop_active ? "off" : "on"),
+        badge("listener: " + (data.listener_hint || "unknown"), "warn"),
+        badge("discover: " + (data.discover_hint || "unknown"), "warn")
+      );
+
+      document.getElementById("stats").innerHTML = [
+        ["Mentions 1h", data.mentions_1h],
+        ["Mentions 24h", data.mentions_24h],
+        ["Alerts 24h", data.alerts_24h],
+      ].map(([label, value]) =>
+        `<div class="stat"><span class="label">${label}</span><span class="value">${value}</span></div>`
+      ).join("");
+
+      const hot = document.getElementById("hot-keys");
+      hot.replaceChildren();
+      (data.hot_keys || []).forEach((row) => {
+        const li = document.createElement("li");
+        li.innerHTML =
+          `<span class="key" title="${row.key}">${truncateKey(row.key)}</span>` +
+          `<span class="num">${row.mentions} mentions</span>` +
+          `<span class="num">${fmtRatio(row.positive_ratio)} +</span>`;
+        hot.appendChild(li);
+      });
+
+      const alertsBody = document.getElementById("alerts-body");
+      alertsBody.replaceChildren();
+      (data.recent_alerts || []).forEach((row) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML =
+          `<td class="muted">${fmtTime(row.sent_at)}</td>` +
+          `<td class="mono">${truncateKey(row.key)}</td>` +
+          `<td>${row.summary || ""}</td>`;
+        alertsBody.appendChild(tr);
+      });
+
+      const channelsBody = document.getElementById("channels-body");
+      channelsBody.replaceChildren();
+      (data.channels || []).forEach((row) => {
+        const tr = document.createElement("tr");
+        const status = row.status || "suggested";
+        tr.innerHTML =
+          `<td class="mono">@${row.username || ""}</td>` +
+          `<td><span class="status ${status}">${status}</span></td>` +
+          `<td class="mono">${Number(row.score).toFixed(3)}</td>` +
+          `<td class="muted">${row.reason || ""}</td>`;
+        channelsBody.appendChild(tr);
+      });
+    }
+
+    fetch("mock/overview.json")
+      .then((r) => {
+        if (!r.ok) throw new Error("Failed to load mock/overview.json");
+        return r.json();
+      })
+      .then(render)
+      .catch((err) => {
+        document.querySelector(".page").innerHTML =
+          `<div class="error">Mock load error: ${err.message}. Serve the dashboard/ folder over HTTP (not file://).</div>`;
+      });
+  </script>
+</body>
+</html>

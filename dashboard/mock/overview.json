@@ -1,0 +1,69 @@
+{
+  "stop_active": false,
+  "listener_hint": "unknown",
+  "discover_hint": "unknown",
+  "mentions_1h": 18,
+  "mentions_24h": 142,
+  "alerts_24h": 4,
+  "hot_keys": [
+    {"key": "PEPE", "mentions": 22, "positive_ratio": 0.82},
+    {"key": "WIF", "mentions": 15, "positive_ratio": 0.73},
+    {"key": "BONK", "mentions": 11, "positive_ratio": 0.64},
+    {"key": "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU", "mentions": 9, "positive_ratio": 0.78},
+    {"key": "MYRO", "mentions": 7, "positive_ratio": 0.71}
+  ],
+  "recent_alerts": [
+    {
+      "sent_at": "2026-07-20T21:10:00+00:00",
+      "key": "PEPE",
+      "summary": "mentions=8 positive_ratio=0.88 window_minutes=5"
+    },
+    {
+      "sent_at": "2026-07-20T20:42:00+00:00",
+      "key": "WIF",
+      "summary": "mentions=6 positive_ratio=0.83 window_minutes=5"
+    },
+    {
+      "sent_at": "2026-07-20T19:05:00+00:00",
+      "key": "BONK",
+      "summary": "mentions=5 positive_ratio=0.80 window_minutes=5"
+    },
+    {
+      "sent_at": "2026-07-20T18:20:00+00:00",
+      "key": "MYRO",
+      "summary": "mentions=5 positive_ratio=0.80 window_minutes=5"
+    }
+  ],
+  "channels": [
+    {
+      "username": "myroSOL",
+      "status": "enabled",
+      "score": 0.256,
+      "reason": "top factor: target density (20%)"
+    },
+    {
+      "username": "SolanaShitcoinChannel",
+      "status": "suggested",
+      "score": 0.162,
+      "reason": "top factor: target density (15%)"
+    },
+    {
+      "username": "memecoininvesting",
+      "status": "suggested",
+      "score": 0.065,
+      "reason": "top factor: target density (6%)"
+    },
+    {
+      "username": "catwifhatonsol",
+      "status": "ignored",
+      "score": 0.0,
+      "reason": "top factor: spam penalty (28%)"
+    },
+    {
+      "username": "HypeSolanaBot",
+      "status": "suggested",
+      "score": 0.157,
+      "reason": "top factor: target density (14%)"
+    }
+  ]
+}
