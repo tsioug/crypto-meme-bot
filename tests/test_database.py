@@ -41,6 +41,32 @@ def test_insert_and_fetch_excludes_spam(tmp_path):
     assert rows[0]["is_positive"] is True
 
 
+def test_fetch_mentions_since_matches_ca_key(tmp_path):
+    db = str(tmp_path / "meme.db")
+    init_db(db)
+    ca = "7GCihgDB8fe6KNjn2MYTKz1c2J4q8Z4Um8cb8a8Sn2nd"
+    insert_mention(
+        db,
+        created_at="2026-07-20T12:00:00+00:00",
+        channel_id="1",
+        user_id="u1",
+        text_hash="c",
+        text="check this CA",
+        symbols=[],
+        cas=[ca],
+        sentiment_compound=0.5,
+        is_positive=True,
+        is_spam=False,
+    )
+    rows = fetch_mentions_since(db, key=ca, since_iso="2026-07-20T00:00:00+00:00")
+    assert len(rows) == 1
+    assert rows[0]["cas"] == [ca]
+    wrong = fetch_mentions_since(
+        db, key="wrong-ca-key", since_iso="2026-07-20T00:00:00+00:00"
+    )
+    assert wrong == []
+
+
 def test_alert_cooldown_helpers(tmp_path):
     db = str(tmp_path / "meme.db")
     init_db(db)
