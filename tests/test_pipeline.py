@@ -39,6 +39,7 @@ def _handle(
     sent: list[str],
     *,
     account_age_days: float = 30.0,
+    recent_hashes: set[str] | None = None,
 ) -> dict:
     return handle_message(
         settings,
@@ -48,7 +49,7 @@ def _handle(
         account_age_days=account_age_days,
         now=now,
         send_alert=sent.append,
-        recent_hashes=None,
+        recent_hashes=recent_hashes,
     )
 
 
@@ -103,6 +104,34 @@ def test_spam_is_stored_but_does_not_aggregate_or_send_verbose(tmp_path):
     assert result["stored"] is True
     assert result["alerts_sent"] == 0
     assert rows == []
+    assert sent == []
+
+
+def test_duplicate_message_with_shared_hashes_does_not_inflate_aggregate(tmp_path):
+    settings = replace(_settings(tmp_path), min_mentions=2)
+    sent: list[str] = []
+    recent_hashes: set[str] = set()
+    now = datetime(2026, 7, 20, 12, 0, tzinfo=timezone.utc)
+    text = "great amazing excellent $PEPE"
+
+    first = _handle(settings, text, now, sent, recent_hashes=recent_hashes)
+    recent_hashes.add(first["text_hash"])
+    second = _handle(
+        settings,
+        text,
+        now + timedelta(seconds=1),
+        sent,
+        recent_hashes=recent_hashes,
+    )
+
+    rows = fetch_mentions_since(
+        settings.db_path,
+        key="PEPE",
+        since_iso=(now - timedelta(minutes=5)).isoformat(),
+    )
+    assert second["stored"] is True
+    assert second["alerts_sent"] == 0
+    assert len(rows) == 1
     assert sent == []
 
 

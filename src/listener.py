@@ -37,6 +37,7 @@ async def run_listener(settings: Settings) -> None:
         settings.telegram_api_id,
         settings.telegram_api_hash,
     )
+    recent_hashes: set[str] = set()
 
     def send_alert(text: str) -> None:
         if alerts_allowed(settings.stop_path):
@@ -48,7 +49,7 @@ async def run_listener(settings: Settings) -> None:
 
     @client.on(events.NewMessage(chats=enabled_channel_keys(settings.channels_path)))
     async def on_new_message(event) -> None:
-        handle_message(
+        result = handle_message(
             settings,
             text=event.raw_text or "",
             channel_id=str(event.chat_id) if event.chat_id is not None else None,
@@ -56,8 +57,13 @@ async def run_listener(settings: Settings) -> None:
             account_age_days=None,
             now=event.date or datetime.now(timezone.utc),
             send_alert=send_alert,
-            recent_hashes=None,
+            recent_hashes=recent_hashes,
         )
+        text_hash = result.get("text_hash")
+        if result.get("stored") and text_hash:
+            if len(recent_hashes) >= 500:
+                recent_hashes.pop()
+            recent_hashes.add(text_hash)
 
     await client.start()
     await client.run_until_disconnected()

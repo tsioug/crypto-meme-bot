@@ -66,6 +66,7 @@ def handle_message(
         is_spam=targets.is_spam,
     )
     result["stored"] = True
+    result["text_hash"] = targets.text_hash
     if targets.is_spam:
         return result
 

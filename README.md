@@ -74,6 +74,8 @@ Review every suggestion. For each trusted channel:
    `status: enabled`.
 
 Set untrusted entries to `status: ignored`. Only enabled entries are monitored.
+After changing a channel to `status: enabled`, restart the listener process so
+it reloads the monitored chats list from `channels.yaml`.
 
 ## Run
 
