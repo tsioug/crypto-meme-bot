@@ -108,15 +108,44 @@ delivery is skipped. Resume alerts by removing it:
 rm data/STOP
 ```
 
-## Dashboard (mock — Phase 0)
+## Dashboard
 
-Read-only UI preview with fake data (no FastAPI yet):
+Read-only overview (channels, mentions, alerts). FastAPI on localhost; put nginx
+with HTTPS + HTTP Basic Auth in front on the VPS.
+
+```bash
+.venv/bin/uvicorn dashboard.app:app --host 127.0.0.1 --port 8001
+```
+
+Open http://127.0.0.1:8001/ — UI loads live data from `GET /api/overview`.
+
+Mock-only preview (no API):
 
 ```bash
 .venv/bin/python -m http.server 8765 --directory dashboard
 ```
 
-Open http://127.0.0.1:8765/ — contract: `dashboard/mock/overview.json`.
+### VPS (nginx + basic auth sketch)
+
+1. Copy `dashboard/crypto-meme-dashboard.service` to `/etc/systemd/system/`, adjust paths, `systemctl enable --now crypto-meme-dashboard`.
+2. Create htpasswd: `sudo htpasswd -c /etc/nginx/.htpasswd-meme youruser`
+3. nginx server block (example):
+
+```nginx
+server {
+    listen 443 ssl;
+    server_name meme.example.com;
+    # ssl_certificate ...;
+
+    auth_basic "Meme dashboard";
+    auth_basic_user_file /etc/nginx/.htpasswd-meme;
+
+    location / {
+        proxy_pass http://127.0.0.1:8001;
+        proxy_set_header Host $host;
+    }
+}
+```
 
 ## Tests
 

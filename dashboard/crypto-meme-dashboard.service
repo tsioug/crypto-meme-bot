@@ -1,0 +1,16 @@
+[Unit]
+Description=Meme Bot Dashboard (read-only, FastAPI)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/crypto-meme-bot
+ExecStart=/root/crypto-meme-bot/.venv/bin/uvicorn dashboard.app:app --host 127.0.0.1 --port 8001
+Restart=on-failure
+RestartSec=5
+StartLimitBurst=5
+StartLimitIntervalSec=300
+
+[Install]
+WantedBy=multi-user.target

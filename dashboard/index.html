@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>crypto-meme-bot dashboard (mock)</title>
+  <title>crypto-meme-bot dashboard</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -134,15 +134,26 @@
       });
     }
 
-    fetch("mock/overview.json")
-      .then((r) => {
-        if (!r.ok) throw new Error("Failed to load mock/overview.json");
-        return r.json();
+    fetch("/api/overview")
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("api"))))
+      .then((data) => {
+        document.querySelector(".meta").textContent = "Read-only overview · live data";
+        render(data);
       })
-      .then(render)
+      .catch(() =>
+        fetch("mock/overview.json")
+          .then((r) => {
+            if (!r.ok) throw new Error("Failed to load overview");
+            return r.json();
+          })
+          .then((data) => {
+            document.querySelector(".meta").textContent = "Read-only overview · mock data";
+            render(data);
+          })
+      )
       .catch((err) => {
         document.querySelector(".page").innerHTML =
-          `<div class="error">Mock load error: ${err.message}. Serve the dashboard/ folder over HTTP (not file://).</div>`;
+          `<div class="error">Overview load error: ${err.message}</div>`;
       });
   </script>
 </body>
