@@ -1,1 +1,97 @@
-channels: []
+channels:
+- id: 2107589143
+  username: myroSOL
+  status: suggested
+  score: 0.25598834676633014
+  reason: 'top factor: target density (20%)'
+  updated_at: '2026-07-21T09:18:30.409992+00:00'
+- id: 2094913897
+  username: catwifhatonsol
+  status: suggested
+  score: 0.0
+  reason: 'top factor: spam penalty (35%)'
+  updated_at: '2026-07-21T09:18:30.422600+00:00'
+- id: 2092355582
+  username: HypeSolanaBot
+  status: suggested
+  score: 0.1566471034892528
+  reason: 'top factor: target density (14%)'
+  updated_at: '2026-07-21T09:18:30.432065+00:00'
+- id: 2140360833
+  username: SolanaShitcoinChannel
+  status: suggested
+  score: 0.16190846423978844
+  reason: 'top factor: target density (15%)'
+  updated_at: '2026-07-21T09:18:30.440994+00:00'
+- id: 2138969455
+  username: memecoininvesting
+  status: suggested
+  score: 0.06461268466394489
+  reason: 'top factor: target density (6%)'
+  updated_at: '2026-07-21T09:18:32.248590+00:00'
+- id: 2069275568
+  username: WordsGC
+  status: suggested
+  score: 0.2514108071553475
+  reason: 'top factor: target density (25%)'
+  updated_at: '2026-07-21T09:18:32.257901+00:00'
+- id: 2363746289
+  username: memecoinbazaar
+  status: suggested
+  score: 0.10022261334118555
+  reason: 'top factor: target density (10%)'
+  updated_at: '2026-07-21T09:18:32.266824+00:00'
+- id: 2243037651
+  username: watersolmeme
+  status: suggested
+  score: 0.6159930316416236
+  reason: 'top factor: members (33%)'
+  updated_at: '2026-07-21T09:18:32.276823+00:00'
+- id: 3073489794
+  username: patosmemecoin
+  status: suggested
+  score: 0.0011859961685823754
+  reason: 'top factor: members (0%)'
+  updated_at: '2026-07-21T09:18:32.286567+00:00'
+- id: 2125006340
+  username: DODUmemcoin_Official
+  status: suggested
+  score: 0.0005813169462459125
+  reason: 'top factor: members (0%)'
+  updated_at: '2026-07-21T09:18:32.295558+00:00'
+- id: 1404098871
+  username: memecoinx
+  status: suggested
+  score: 0.2419305542613086
+  reason: 'top factor: target density (13%)'
+  updated_at: '2026-07-21T09:18:32.306504+00:00'
+- id: 2457480263
+  username: PumpFunBondedAlerts
+  status: suggested
+  score: 0.40633140514885663
+  reason: 'top factor: target density (33%)'
+  updated_at: '2026-07-21T09:18:34.011497+00:00'
+- id: 2238129919
+  username: pumpfuncabals
+  status: suggested
+  score: 0.11137042873655852
+  reason: 'top factor: target density (11%)'
+  updated_at: '2026-07-21T09:18:34.020450+00:00'
+- id: 3127445586
+  username: hugopumpfun
+  status: suggested
+  score: 0.0
+  reason: 'top factor: spam penalty (24%)'
+  updated_at: '2026-07-21T09:18:34.029554+00:00'
+- id: 1848545479
+  username: PUMPFUN8
+  status: suggested
+  score: 0.09217183976589874
+  reason: 'top factor: target density (11%)'
+  updated_at: '2026-07-21T09:18:34.038485+00:00'
+- id: 2075103788
+  username: pumpfunn
+  status: suggested
+  score: 0.0
+  reason: 'top factor: spam penalty (48%)'
+  updated_at: '2026-07-21T09:18:34.048771+00:00'
